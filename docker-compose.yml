@@ -32,7 +32,8 @@ services:
 
   back:
     build:
-      dockerfile: back/Dockerfile
+      context: ./back
+      dockerfile: Dockerfile
     container_name: backhack2025
     env_file:
       - .env
