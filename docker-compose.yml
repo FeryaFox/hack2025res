@@ -41,10 +41,22 @@ services:
       DATA_SOURCE_URL: jdbc:postgresql://postgres-db:5432/hack_template
       MINIO_HOST: minio:9000
     ports:
-      - "8081:8080"
+      - "8080:8080"
     depends_on:
       - postgres-db
       - minio
+    networks:
+      - hack2025-network
+
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: fronthack2025
+    port:
+      - "3000:3000"
+    depends_on:
+      - back
     networks:
       - hack2025-network
       
