@@ -1,0 +1,6 @@
+[submodule "back"]
+	path = back
+	url = https://github.com/FeryaFox/HackTemplate.git
+[submodule "front"]
+	path = front
+	url = https://github.com/StartPrime/hack_2025.git
