@@ -53,7 +53,7 @@ services:
       context: ./front
       dockerfile: Dockerfile
     container_name: fronthack2025
-    port:
+    ports:
       - "3000:3000"
     depends_on:
       - back
