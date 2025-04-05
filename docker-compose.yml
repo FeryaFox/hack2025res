@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+
+  postgres-db:
+    image: postgres:14
+    container_name: postgreshack2025
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: hack_template
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: ["postgres", "-c", "max_connections=500"]
+    networks:
+      - hack2025-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: miniohack2025
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address ":9090"
+    networks:
+      - hack2025-network
+
+  back:
+    build:
+      dockerfile: back/Dockerfile
+    container_name: backhack2025
+    env_file:
+      - .env
+    environment:
+      DATA_SOURCE_URL: jdbc:postgresql://postgres-db:5432/hack_template
+      MINIO_HOST: minio:9000
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres-db
+      - minio
+    networks:
+      - hack2025-network
+      
+
+volumes:
+  postgres_data:
+
+
+networks:
+  hack2025-network:
+
