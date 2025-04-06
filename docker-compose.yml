@@ -27,7 +27,7 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9090"
-      volumes:
+    volumes:
       - minio_data:/data
     networks:
       - hack2025-network
